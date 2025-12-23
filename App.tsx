@@ -8,14 +8,19 @@ import { FeedbackModal } from './components/FeedbackModal';
 import { FeedbackDetailModal } from './components/FeedbackDetailModal';
 
 const App: React.FC = () => {
-  const [currentRoute, setCurrentRoute] = useState(window.location.hash || '#/');
+  const getRouteFromHash = (hash: string) => {
+    if (!hash) return '#/';
+    return hash.split('?')[0];
+  };
+
+  const [currentRoute, setCurrentRoute] = useState(getRouteFromHash(window.location.hash));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
       let hash = window.location.hash;
       if (!hash) hash = '#/';
-      setCurrentRoute(hash);
+      setCurrentRoute(getRouteFromHash(hash));
     };
 
     window.addEventListener('hashchange', handleHashChange);
